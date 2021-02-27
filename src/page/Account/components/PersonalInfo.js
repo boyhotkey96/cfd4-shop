@@ -1,6 +1,22 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router';
+import { userLogout } from '../../../redux/reducers/authReducer';
 
 export default function PersonalInfo() {
+
+  const dispatch = useDispatch();
+
+  // const auth = useSelector(state => state.auth);
+  // if (!auth.login) {
+  //   return <Redirect to="/auth" />
+  // }
+
+  function _btnLogout(e) {
+    e.preventDefault();
+    dispatch(userLogout());
+  }
+
   return (
     <section className="pt-7 pb-12">
       <div className="container">
@@ -30,7 +46,7 @@ export default function PersonalInfo() {
                 <a className="list-group-item list-group-item-action dropright-toggle " href="account-payment.html">
                   Payment Methods
             </a>
-                <a className="list-group-item list-group-item-action dropright-toggle" href="#!">
+                <a className="list-group-item list-group-item-action dropright-toggle" href="#!" onClick={_btnLogout}>
                   Logout
             </a>
               </div>

@@ -1,6 +1,21 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router';
+import { userLogin } from '../../redux/reducers/authReducer';
 
 export default function Auth() {
+  const dispatch = useDispatch();
+
+  function _btnLogin () {
+    dispatch(userLogin());
+  }
+
+  const auth = useSelector(state => state.auth)
+  // console.log(auth)
+  if (auth.user) {
+    return <Redirect to="/" />
+  }
+  
   return (
     <section className="py-12">
       <div className="container">
@@ -12,7 +27,6 @@ export default function Auth() {
                 {/* Heading */}
                 <h6 className="mb-7">Returning Customer</h6>
                 {/* Form */}
-                <form>
                   <div className="row">
                     <div className="col-12">
                       {/* Email */}
@@ -52,12 +66,11 @@ export default function Auth() {
                     </div>
                     <div className="col-12">
                       {/* Button */}
-                      <button className="btn btn-sm btn-dark" type="submit">
+                      <button className="btn btn-sm btn-dark" type="submit" onClick={_btnLogin}>
                         Sign In
                   </button>
                     </div>
                   </div>
-                </form>
               </div>
             </div>
           </div>

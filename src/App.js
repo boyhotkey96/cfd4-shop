@@ -1,5 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import Header from './components/Header'
 import Home from './page/home'
 import Footer from './components/Footer'
@@ -22,14 +27,31 @@ import StoreLocator from './page/StoreLocator'
 import FAQ from './page/FAQ'
 import Shop from './page/Shop'
 import OrderComplete from './page/OrderComplete'
+import AppProvider from './core/AppProvider';
+import reducers from './redux/reducers';
+import PrivateRouter from './core/PrivateRouter';
 
 function App() {
   return (
-    <>
+    <AppProvider reducers={reducers}>
       <Header />
-      <Home />
+      <Switch>
+        <PrivateRouter path="/account" exact component={Account} />
+        <Route path="/shipping-and-returns" exact component={ShippingAndReturns} />
+        <Route path="/about" exact component={About} />
+        <Route path="/store-locator" exact component={StoreLocator} />
+        <Route path="/shopping-cart" exact component={ShoppingCart} />
+        <Route path="/faq" exact component={FAQ} />
+        {/* <Route path="/about" exact component={About} /> */}
+        <Route path="/product:slug" exact component={ProductDetail} />
+        <Route path="/contact-us" exact component={ContactUs} />
+        <Route path="/checkout" exact component={Checkout} />
+        <Route path="/auth" exact component={Auth} />
+        <Route path="/" exact component={Home} />
+        <Route path="*" component={Page404} />
+      </Switch>
       <Footer />
-    </>
+    </AppProvider>
   );
 }
 
