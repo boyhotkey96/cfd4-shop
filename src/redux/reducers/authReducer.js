@@ -1,3 +1,4 @@
+import userApi from "../../api/userApi";
 import createSlice from "../../core/createSlice";
 
 let user = JSON.parse(localStorage.getItem('login'));
@@ -6,6 +7,7 @@ let initialState = {
   // login: user ? user : false,
   login: !!user,
   user: user,
+  error: null,
 }
 
 // const USER = {
@@ -53,16 +55,29 @@ let initialState = {
 
 // ------------------------------------------------------------------
 
+export function login(data) {
+  return (dispatch) => {
+    userApi.login(data)
+    .then(res => {
+      if (res.error) {
+        dispatch({type: TYPE.error, payload: res.error})
+      } else {
+        dispatch({type: TYPE.login, payload: res.data})
+      }
+    })
+  }
+}
+
 let {action, reducer, TYPE} = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     login: (state, action) => {
-      let user = {
-        name: 'Phung Ba Du',
-        email: 'boyhotkey96@gmail.com'
-      }
+      let user = action.payload;
+      let token = action.payload.token;
+
       localStorage.setItem('login', JSON.stringify(user));
+      localStorage.setItem('token', JSON.stringify(token));
       return {
         ...state,
         login: true,
@@ -71,10 +86,17 @@ let {action, reducer, TYPE} = createSlice({
     },
     logout: (state, action) => {
       localStorage.removeItem('login')
+      localStorage.removeItem('token')
       return {
         ...state,
         login: false,
         user: null
+      }
+    },
+    error: function(state, action) {
+      return {
+        ...state,
+        error: action.payload
       }
     }
   }

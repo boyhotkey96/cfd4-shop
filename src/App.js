@@ -13,6 +13,7 @@ import About from './page/About'
 import AddressList from './page/Account/components/AddressList'
 import Account from './page/Account'
 import Order from './page/Account/components/Order'
+import Catalog from './page/Catalog'
 import OrderList from './page/Account/components/OrderList'
 import Payment from './page/Account/components/Payment'
 import PaymentList from './page/Account/components/PaymentList'
@@ -42,7 +43,7 @@ function App() {
         <Route path="/store-locator" exact component={StoreLocator} />
         <Route path="/shopping-cart" exact component={ShoppingCart} />
         <Route path="/faq" exact component={FAQ} />
-        {/* <Route path="/about" exact component={About} /> */}
+        <Route path="/catalog" exact component={Catalog} />
         <Route path="/product:slug" exact component={ProductDetail} />
         <Route path="/contact-us" exact component={ContactUs} />
         <Route path="/checkout" exact component={Checkout} />
