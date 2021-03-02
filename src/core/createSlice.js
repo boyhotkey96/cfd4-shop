@@ -6,7 +6,7 @@ export default function createSlice({ initialState, reducers, name }) {
   for (let i in reducers) {
     let type = `${name}/${i}`;
 
-    action[i] = (...data) => ({
+    action[i] = (data) => ({
       type,
       payload: data
     })

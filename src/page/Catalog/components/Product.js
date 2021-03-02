@@ -1,8 +1,15 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { addCart } from '../../../redux/reducers/cartReducer';
 
-export default function Product({ name, images, real_price }) {
+export default function Product(props) {
+
+  let { name, images, real_price_text } = props;
+
   let image1 = images?.[0]?.medium_url
   let image2 = images?.[0]?.medium_url
+
+  const dispatch = useDispatch();
 
   return (
     <div className="card mb-7">
@@ -18,8 +25,8 @@ export default function Product({ name, images, real_price }) {
             image1 && <img className="card-img-top card-img-back" src={image1} alt="..." />
           }
           {
-            image2 ? <img className="card-img-top card-img-front" src={image2} alt="..." /> : 
-            <img className="card-img-top card-img-back" src={image1} alt="..." />
+            image2 ? <img className="card-img-top card-img-front" src={image2} alt="..." /> :
+              <img className="card-img-top card-img-back" src={image1} alt="..." />
           }
         </a>
         {/* Actions */}
@@ -30,7 +37,7 @@ export default function Product({ name, images, real_price }) {
             </button>
           </span>
           <span className="card-action">
-            <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button">
+            <button className="btn btn-xs btn-circle btn-white-primary" data-toggle="button" onClick={dispatch.bind(null, addCart(props))}>
               <i className="fe fe-shopping-cart" />
             </button>
           </span>
@@ -55,7 +62,7 @@ export default function Product({ name, images, real_price }) {
         </div>
         {/* Price */}
         <div className="font-weight-bold text-muted">
-          {real_price}
+          {real_price_text}
         </div>
       </div>
     </div>

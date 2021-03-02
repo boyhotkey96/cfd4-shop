@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Pagination from '../../components/Pagination';
+import withPriceFormat from '../../hoc/withPriceFormat';
 import { getProduct } from '../../redux/reducers/productReducer';
 import Product from './components/Product'
 
@@ -14,10 +15,13 @@ export default function Catalog() {
   let dispatch = useDispatch();
 
   let product = useSelector(state => state.product);
+  // console.log(product.products[0])
+
   let page = getPage();
 
   useEffect(() => {
     dispatch(getProduct(page || 1));
+
   }, [page])
 
   return (
@@ -749,7 +753,8 @@ export default function Catalog() {
               {
                 product.products.map(e => (
                   <div className="col-6 col-md-4" key={e.id}>
-                    <Product {...e} />
+                    {withPriceFormat(Product, e)}
+                    {/* <Product {...e} /> */}
                   </div>
                 ))
               }

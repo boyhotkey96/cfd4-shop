@@ -48,6 +48,7 @@ export default function Auth() {
   }
 
   const auth = useSelector(state => state.auth)
+  console.log(auth)
   if (auth.user) {
     return <Redirect to="/" />
   }

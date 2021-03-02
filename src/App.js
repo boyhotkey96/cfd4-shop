@@ -1,7 +1,7 @@
 import logo from './logo.svg';
+import './assets/custom.scss'
 import './App.css';
 import {
-  BrowserRouter,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -31,6 +31,7 @@ import OrderComplete from './page/OrderComplete'
 import AppProvider from './core/AppProvider';
 import reducers from './redux/reducers';
 import PrivateRouter from './core/PrivateRouter';
+import ModelCart from './components/ModelCart';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
         <Route path="*" component={Page404} />
       </Switch>
       <Footer />
+      <ModelCart />
     </AppProvider>
   );
 }
