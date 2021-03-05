@@ -10,3 +10,17 @@
   width: 30px;
   border-radius: 3px;
 }
+
+.error-text {
+  font-size: 13;
+  font-style: italic;
+  color: red;
+}
+
+.error-input {
+  border-color: red;
+}
+
+.error-input::placeholder {
+  color: red;
+}

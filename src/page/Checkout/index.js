@@ -1,6 +1,117 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router'
+import { fromStringWithSourceMap } from 'source-list-map'
+import useFormValidate from '../../core/hook/useFormValidate'
+import withPriceFormat from '../../hoc/withPriceFormat'
+import { cartDecrement, cartIncrement, cartUpdate } from '../../redux/reducers/cartReducer'
 
 export default function Checkout() {
+  const cart = useSelector(state => state.cart)
+  let dispatch = useDispatch()
+
+  let { form, inputChange, submit, error } = useFormValidate({
+    first_name: '',
+    last_name: '',
+    email: '',
+    company: '',
+    country: '',
+    address1: '',
+    address2: '',
+    city: '',
+    post_code: '',
+    phone: '',
+    shipping: cart.shipping_option,
+    shipping_diff_address: false,
+    ship_country: '',
+    ship_address1: '',
+    ship_address2: '',
+    ship_city: '',
+    ship_post_code: '',
+    payment_option: cart.payment_option,
+    payment_card_number: '',
+    payment_card_name: '',
+    payment_month: '',
+    payment_card_year: '',
+    payment_card_cvv: '',
+    note: ''
+  }, {
+    rule: {
+      first_name: { required: true },
+      last_name: { required: true },
+      email: { required: true, pattern: 'email' },
+      phone: { required: true },
+      city: { required: true },
+      // shipping: { required: true },
+      // payment_option: { required: true },
+
+      ship_country: { required: true },
+      ship_city: { required: true },
+      ship_post_code: { required: true },
+
+      payment_card_number: { required: true },
+      payment_card_name: { required: true },
+      payment_card_cvv: { required: true },
+    },
+    message: {}
+  })
+
+  let shipping_price = new Intl.NumberFormat('vn').format(cart.shipping_price)
+
+  let amount = new Intl.NumberFormat('vn').format(cart.amount)
+
+  let total = new Intl.NumberFormat('vn').format(cart.amount + cart.shipping_price)
+
+  let yearNow = (new Date()).getFullYear();
+
+  function _btnPlaceOrderClick() {
+    // let error;
+    let exclude = {}
+
+    if (!form.shipping_diff_address) {
+      exclude = {
+        ship_country: 1,
+        ship_city: 1,
+        ship_post_code: 1,
+      }
+      // error = submit({ exclude: { ship_country: 1, ship_city: 1, ship_post_code: 1 } });
+    }
+
+    if (form.payment_option !== 'credit_card') {
+      exclude = {
+        ...exclude,
+        payment_card_cvv: 1,
+        payment_card_name: 1,
+        payment_card_number: 1,
+      }
+    }
+    error = submit({ exclude });
+
+    console.log(error)
+    if (Object.keys(error).length === 0) {
+      alert('Đơn hàng đã được đặt thành công')
+    }
+  }
+
+  function _shippingChange(e) {
+    let { value } = e.target, price = parseInt(e.target.dataset.price);
+
+    dispatch(cartUpdate({
+      shipping_option: value,
+      shipping_price: price
+    }))
+  }
+
+  function _paymentChange(e) {
+    let { value } = e.target;
+
+    dispatch(cartUpdate({
+      payment_option: value,
+    }))
+  }
+
+  if (cart.num === 0) return <Redirect to="catalog" />
+
   return (
     <section className="pt-7 pb-12">
       <div className="container">
@@ -24,73 +135,45 @@ export default function Checkout() {
               <div className="row mb-9">
                 <div className="col-12 col-md-6">
                   {/* First Name */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingFirstName">First Name *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingFirstName" type="text" placeholder="First Name" required />
-                  </div>
+                  <InputGroup name="first_name" title="First Name *" form={form} inputChange={inputChange} error={error} />
                 </div>
                 <div className="col-12 col-md-6">
                   {/* Last Name */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingLastName">Last Name *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingLastName" type="text" placeholder="Last Name" required />
-                  </div>
+                  <InputGroup name="last_name" title="Last Name *" form={form} inputChange={inputChange} error={error} />
                 </div>
                 <div className="col-12">
                   {/* Email */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingEmail">Email *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingEmail" type="email" placeholder="Email" required />
-                  </div>
+                  <InputGroup name="email" title="Email *" form={form} inputChange={inputChange} error={error} />
                 </div>
                 <div className="col-12">
                   {/* Company Name */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingCompany">Company name *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingCompany" type="text" placeholder="Company name (optional)" />
-                  </div>
+                  <InputGroup name="company" title="Company name" form={form} inputChange={inputChange} error={error} />
                 </div>
                 <div className="col-12">
                   {/* Country */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingCountry">Country *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingCountry" type="text" placeholder="Country" required />
-                  </div>
+                  <InputGroup name="country" title="Country" form={form} inputChange={inputChange} error={error} />
                 </div>
                 <div className="col-12">
                   {/* Address Line 1 */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingAddress">Address Line 1 *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingAddress" type="text" placeholder="Address Line 1" required />
-                  </div>
+                  <InputGroup name="address1" title="Address Line 1" form={form} inputChange={inputChange} error={error} />
+
                 </div>
                 <div className="col-12">
                   {/* Address Line 2 */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingAddressTwo">Address Line 2</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingAddressTwo" type="text" placeholder="Address Line 2 (optional)" />
-                  </div>
+                  <InputGroup name="address2" title="Address Line 2" form={form} inputChange={inputChange} error={error} />
+
                 </div>
                 <div className="col-12 col-md-6">
                   {/* Town / City */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingTown">Town / City *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingTown" type="text" placeholder="Town / City" required />
-                  </div>
+                  <InputGroup name="city" title="Town / City *" form={form} inputChange={inputChange} error={error} />
                 </div>
                 <div className="col-12 col-md-6">
                   {/* ZIP / Postcode */}
-                  <div className="form-group">
-                    <label htmlFor="checkoutBillingZIP">ZIP / Postcode *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingZIP" type="text" placeholder="ZIP / Postcode" required />
-                  </div>
+                  <InputGroup name="post_code" title="ZIP / Postcode" form={form} inputChange={inputChange} error={error} />
                 </div>
                 <div className="col-12">
                   {/* Mobile Phone */}
-                  <div className="form-group mb-0">
-                    <label htmlFor="checkoutBillingPhone">Mobile Phone *</label>
-                    <input className="form-control form-control-sm" id="checkoutBillingPhone" type="tel" placeholder="Mobile Phone" required />
-                  </div>
+                  <InputGroup name="phone" title="Mobile Phone *" form={form} inputChange={inputChange} error={error} />
                 </div>
               </div>
               {/* Heading */}
@@ -102,52 +185,50 @@ export default function Checkout() {
                     <tr>
                       <td>
                         <div className="custom-control custom-radio">
-                          <input className="custom-control-input" id="checkoutShippingStandard" name="shipping" type="radio" />
+                          <input className="custom-control-input" id="checkoutShippingStandard" name="shipping" type="radio" data-price={30000} checked={form.shipping === 'standard' || form.shipping === ''} value="standard" onClick={_shippingChange} onChange={inputChange} />
                           <label className="custom-control-label text-body text-nowrap" htmlFor="checkoutShippingStandard">
                             Standard Shipping
-                      </label>
+                                                    </label>
                         </div>
                       </td>
                       <td>Delivery in 5 - 7 working days</td>
-                      <td>$8.00</td>
+                      <td>30,000 vnđ</td>
                     </tr>
                     <tr>
                       <td>
                         <div className="custom-control custom-radio">
-                          <input className="custom-control-input" id="checkoutShippingExpress" name="shipping" type="radio" />
+                          <input className="custom-control-input" id="checkoutShippingExpress" name="shipping" type="radio" data-price={40000} checked={form.shipping === 'express'} value="express" onClick={_shippingChange} onChange={inputChange} />
                           <label className="custom-control-label text-body text-nowrap" htmlFor="checkoutShippingExpress">
                             Express Shipping
-                      </label>
+                                                    </label>
                         </div>
                       </td>
                       <td>Delivery in 3 - 5 working days</td>
-                      <td>$12.00</td>
+                      <td>40,000 vnđ</td>
                     </tr>
                     <tr>
                       <td>
                         <div className="custom-control custom-radio">
-                          <input className="custom-control-input" id="checkoutShippingShort" name="shipping" type="radio" />
+                          <input className="custom-control-input" id="checkoutShippingShort" name="shipping" type="radio" data-price={50000} checked={form.shipping === 'shipping'} value="shipping" onClick={_shippingChange} onChange={inputChange} />
                           <label className="custom-control-label text-body text-nowrap" htmlFor="checkoutShippingShort">
                             1 - 2 Shipping
-                      </label>
+                                                    </label>
                         </div>
                       </td>
                       <td>Delivery in 1 - 2 working days</td>
-                      <td>$18.00</td>
+                      <td>50,000 vnđ</td>
                     </tr>
                     <tr>
                       <td>
                         <div className="custom-control custom-radio">
-                          <input className="custom-control-input" id="checkoutShippingFree" name="shipping" type="radio" />
+                          <input className="custom-control-input" id="checkoutShippingFree" name="shipping" type="radio" data-price={0} checked={form.shipping === 'free'} value="free" onClick={_shippingChange} onChange={inputChange} />
                           <label className="custom-control-label text-body text-nowrap" htmlFor="checkoutShippingFree">
                             Free Shipping
-                      </label>
+                                                    </label>
                         </div>
                       </td>
-                      <td>Living won't the He one every subdue
-                      meat replenish face was you morning
-                    firmament darkness.</td>
-                      <td>$0.00</td>
+                      <td>Living won't the He one every subdue meat replenish face was you morning firmament darkness.</td>
+                      <td>0 vnđ</td>
                     </tr>
                   </tbody>
                 </table>
@@ -156,54 +237,39 @@ export default function Checkout() {
               <div className="mb-9">
                 {/* Checkbox */}
                 <div className="custom-control custom-checkbox">
-                  <input className="custom-control-input" id="checkoutShippingAddress" type="checkbox" />
+                  <input className="custom-control-input" id="checkoutShippingAddress" type="checkbox" checked={form.shipping_diff_address} onChange={inputChange} name="shipping_diff_address" />
                   <label className="custom-control-label font-size-sm" data-toggle="collapse" data-target="#checkoutShippingAddressCollapse" htmlFor="checkoutShippingAddress">
                     Ship to a different address?
-              </label>
+                  </label>
                 </div>
                 {/* Collapse */}
                 <div className="collapse" id="checkoutShippingAddressCollapse">
                   <div className="row mt-6">
                     <div className="col-12">
                       {/* Country */}
-                      <div className="form-group">
-                        <label htmlFor="checkoutShippingAddressCountry">Country *</label>
-                        <input className="form-control form-control-sm" id="checkoutShippingAddressCountry" type="text" placeholder="Country" />
-                      </div>
+                      <InputGroup name="ship_country" title="Country *" form={form} inputChange={inputChange} error={error} />
                     </div>
                     <div className="col-12">
                       {/* Address Line 1 */}
-                      <div className="form-group">
-                        <label htmlFor="checkoutShippingAddressLineOne">Address Line 1 *</label>
-                        <input className="form-control form-control-sm" id="checkoutShippingAddressLineOne" type="text" placeholder="Address Line 1" />
-                      </div>
+                      <InputGroup name="ship_address1" title="Address Line 1 *" form={form} inputChange={inputChange} error={error} />
                     </div>
                     <div className="col-12">
                       {/* Address Line 2 */}
-                      <div className="form-group">
-                        <label htmlFor="checkoutShippingAddressLineTwo">Address Line 2</label>
-                        <input className="form-control form-control-sm" id="checkoutShippingAddressLineTwo" type="text" placeholder="Address Line 2 (optional)" />
-                      </div>
+                      <InputGroup name="ship_address2" title="Address Line 2" form={form} inputChange={inputChange} error={error} />
                     </div>
                     <div className="col-6">
                       {/* Town / City */}
-                      <div className="form-group">
-                        <label htmlFor="checkoutShippingAddressTown">Town / City *</label>
-                        <input className="form-control form-control-sm" id="checkoutShippingAddressTown" type="text" placeholder="Town / City" />
-                      </div>
+                      <InputGroup name="ship_city" title="Town / City *" form={form} inputChange={inputChange} error={error} />
                     </div>
                     <div className="col-6">
                       {/* Town / City */}
-                      <div className="form-group">
-                        <label htmlFor="checkoutShippingAddressZIP">ZIP / Postcode *</label>
-                        <input className="form-control form-control-sm" id="checkoutShippingAddressZIP" type="text" placeholder="ZIP / Postcode" />
-                      </div>
+                      <InputGroup name="ship_post_code" title="ZIP / Postcode *" form={form} inputChange={inputChange} error={error} />
                     </div>
                     <div className="col-12">
                       {/* Button */}
                       <button className="btn btn-sm btn-outline-dark" type="submit">
                         Save Address
-                  </button>
+                                            </button>
                     </div>
                   </div>
                 </div>
@@ -216,7 +282,7 @@ export default function Checkout() {
                   {/* Radio */}
                   <div className="custom-control custom-radio">
                     {/* Input */}
-                    <input className="custom-control-input" id="checkoutPaymentCard" name="payment" type="radio" data-toggle="collapse" data-action="show" data-target="#checkoutPaymentCardCollapse" />
+                    <input className="custom-control-input" id="checkoutPaymentCard" name="payment_option" value="credit_card" checked={form.payment_option === 'credit_card'} onClick={_paymentChange} onChange={inputChange} type="radio" data-toggle="collapse" data-action="show" data-target="#checkoutPaymentCardCollapse" />
                     {/* Label */}
                     <label className="custom-control-label font-size-sm text-body text-nowrap" htmlFor="checkoutPaymentCard">
                       Credit Card <img className="ml-2" src="/img/brands/color/cards.svg" alt="..." />
@@ -227,21 +293,17 @@ export default function Checkout() {
                   {/* Form */}
                   <div className="form-row py-5">
                     <div className="col-12">
-                      <div className="form-group mb-4">
-                        <label className="sr-only" htmlFor="checkoutPaymentCardNumber">Card Number</label>
-                        <input className="form-control form-control-sm" id="checkoutPaymentCardNumber" type="text" placeholder="Card Number *" required />
-                      </div>
+                      <InputGroup className={`mb-4`} name="payment_card_number" title="Card Number *" form={form} inputChange={inputChange} error={error} />
+
                     </div>
                     <div className="col-12">
-                      <div className="form-group mb-4">
-                        <label className="sr-only" htmlFor="checkoutPaymentCardName">Name on Card</label>
-                        <input className="form-control form-control-sm" id="checkoutPaymentCardName" type="text" placeholder="Name on Card *" required />
-                      </div>
+                      <InputGroup className={`mb-4`} name="payment_card_name" title="Name on Card *" form={form} inputChange={inputChange} error={error} />
+
                     </div>
                     <div className="col-12 col-md-4">
                       <div className="form-group mb-md-0">
                         <label className="sr-only" htmlFor="checkoutPaymentMonth">Month</label>
-                        <select className="custom-select custom-select-sm" id="checkoutPaymentMonth">
+                        <select className="custom-select custom-select-sm" name="payment_card_month" onChange={inputChange} value={form.payment_month} id="checkoutPaymentMonth">
                           <option>January</option>
                           <option>February</option>
                           <option>March</option>
@@ -251,20 +313,23 @@ export default function Checkout() {
                     <div className="col-12 col-md-4">
                       <div className="form-group mb-md-0">
                         <label className="sr-only" htmlFor="checkoutPaymentCardYear">Year</label>
-                        <select className="custom-select custom-select-sm" id="checkoutPaymentCardYear">
-                          <option>2017</option>
-                          <option>2018</option>
-                          <option>2019</option>
+                        <select className="custom-select custom-select-sm" name="payment_card_year" onChange={inputChange} value={form.payment_year} id="checkoutPaymentCardYear">
+                          {
+                            [].map.bind([...Array(21)])((e, i) => <option value={i + yearNow} key={i}>{i + yearNow}</option>)
+                          }
                         </select>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">
                       <div className="input-group input-group-merge">
-                        <input className="form-control form-control-sm" id="checkoutPaymentCardCVV" type="text" placeholder="CVV *" required />
+                        <input className="form-control form-control-sm" id="checkoutPaymentCardCVV" type="text" placeholder="CVV *" required name="payment_card_cvv" onChange={inputChange} value={form.payment_card_cvv} />
                         <div className="input-group-append">
                           <span className="input-group-text" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="The CVV Number on your credit card or debit card is a 3 digit number on VISA, MasterCard and Discover branded credit and debit cards.">
                             <i className="fe fe-help-circle" />
                           </span>
+                          {
+                            error.payment_card_cvv && <p className="text-error">{error.payment_card_cvv}</p>
+                          }
                         </div>
                       </div>
                     </div>
@@ -274,7 +339,7 @@ export default function Checkout() {
                   {/* Radio */}
                   <div className="custom-control custom-radio">
                     {/* Input */}
-                    <input className="custom-control-input" id="checkoutPaymentPaypal" name="payment" type="radio" data-toggle="collapse" data-action="hide" data-target="#checkoutPaymentCardCollapse" />
+                    <input className="custom-control-input" id="checkoutPaymentPaypal" name="payment_option" value="paypal" checked={form.payment_option === 'paypal'} onClick={_paymentChange} onChange={inputChange} type="radio" data-toggle="collapse" data-action="hide" data-target="#checkoutPaymentCardCollapse" />
                     {/* Label */}
                     <label className="custom-control-label font-size-sm text-body text-nowrap" htmlFor="checkoutPaymentPaypal">
                       <img src="/img/brands/color/paypal.svg" alt="..." />
@@ -288,70 +353,30 @@ export default function Checkout() {
           </div>
           <div className="col-12 col-md-5 col-lg-4 offset-lg-1">
             {/* Heading */}
-            <h6 className="mb-7">Order Items (3)</h6>
+            <h6 className="mb-7">Order Items ({cart.num})</h6>
             {/* Divider */}
             <hr className="my-7" />
             {/* List group */}
             <ul className="list-group list-group-lg list-group-flush-y list-group-flush-x mb-7">
-              <li className="list-group-item">
-                <div className="row align-items-center">
-                  <div className="col-4">
-                    {/* Image */}
-                    <a href="product.html">
-                      <img src="/img/products/product-6.jpg" alt="..." className="img-fluid" />
-                    </a>
-                  </div>
-                  <div className="col">
-                    {/* Title */}
-                    <p className="mb-4 font-size-sm font-weight-bold">
-                      <a className="text-body" href="product.html">Cotton floral print Dress</a> <br />
-                      <span className="text-muted">$40.00</span>
-                    </p>
-                    {/* Text */}
-                    <div className="font-size-sm text-muted">
-                      Size: M <br />
-                  Color: Red
-                </div>
-                  </div>
-                </div>
-              </li>
-              <li className="list-group-item">
-                <div className="row align-items-center">
-                  <div className="col-4">
-                    {/* Image */}
-                    <a href="product.html">
-                      <img src="/img/products/product-10.jpg" alt="..." className="img-fluid" />
-                    </a>
-                  </div>
-                  <div className="col">
-                    {/* Title */}
-                    <p className="mb-4 font-size-sm font-weight-bold">
-                      <a className="text-body" href="product.html">Suede cross body Bag</a> <br />
-                      <span className="text-muted">$49.00</span>
-                    </p>
-                    {/* Text */}
-                    <div className="font-size-sm text-muted">
-                      Color: Brown
-                </div>
-                  </div>
-                </div>
-              </li>
+              {
+                cart.list.map(e => <React.Fragment key={e._id}>{withPriceFormat(CartItem, e)}</React.Fragment>)
+              }
             </ul>
             {/* Card */}
             <div className="card mb-9 bg-light">
               <div className="card-body">
                 <ul className="list-group list-group-sm list-group-flush-y list-group-flush-x">
                   <li className="list-group-item d-flex">
-                    <span>Subtotal</span> <span className="ml-auto font-size-sm">$89.00</span>
+                    <span>Subtotal</span> <span className="ml-auto font-size-sm">{amount} vnđ</span>
                   </li>
                   <li className="list-group-item d-flex">
-                    <span>Tax</span> <span className="ml-auto font-size-sm">$00.00</span>
+                    <span>Tax</span> <span className="ml-auto font-size-sm">0</span>
                   </li>
                   <li className="list-group-item d-flex">
-                    <span>Shipping</span> <span className="ml-auto font-size-sm">$8.00</span>
+                    <span>Shipping</span> <span className="ml-auto font-size-sm">{shipping_price} vnđ</span>
                   </li>
                   <li className="list-group-item d-flex font-size-lg font-weight-bold">
-                    <span>Total</span> <span className="ml-auto">$97.00</span>
+                    <span>Total</span> <span className="ml-auto">{total} vnđ</span>
                   </li>
                 </ul>
               </div>
@@ -361,15 +386,65 @@ export default function Checkout() {
               Your personal data will be used to process your order, support
               your experience throughout this website, and for other purposes
               described in our privacy policy.
-        </p>
+              </p>
             {/* Button */}
-            <button className="btn btn-block btn-dark">
+            <button className="btn btn-block btn-dark" onClick={_btnPlaceOrderClick}>
               Place Order
-        </button>
+            </button>
           </div>
         </div>
       </div>
     </section>
+  )
+}
 
+function CartItem({ name, images, real_price_text, _id, cartNum }) {
+  let dispatch = useDispatch()
+
+  return (
+    <li className="list-group-item">
+      <div className="row align-items-center">
+        <div className="col-4">
+          {/* Image */}
+          <a href="product.html">
+            <img src={images?.[0]?.medium_url} alt="..." className="img-fluid" />
+          </a>
+        </div>
+        <div className="col">
+          {/* Title */}
+          <p className="mb-4 font-size-sm font-weight-bold">
+            <a className="text-body" href="product.html">{name}</a> <br />
+            <span className="text-muted">{real_price_text} vnđ</span>
+          </p>
+          {/* Text */}
+          <div className="font-size-sm text-muted">
+            Size: M <br />
+                      Color: Red
+                  </div>
+          <div>
+            <button className="cartItem-button" onClick={() => dispatch(cartDecrement(_id))}>-</button>
+            <input type="text" className="cartItem-num" value={cartNum} />
+            <button className="cartItem-button" onClick={() => dispatch(cartIncrement(_id))}>+</button>
+          </div>
+        </div>
+      </div>
+    </li>
+  )
+}
+
+function InputGroup({ form, name, title, type = "text", placeholder, inputChange, error, className }) {
+  if (!placeholder) placeholder = title
+
+  let randomID = 'id-' + (Math.round(Math.random() * 100000))
+  className = className ? `form-group ${className}` : 'form-group';
+
+  return (
+    <div className={className}>
+      <label htmlFor={randomID}>{title}</label>
+      <input className="form-control form-control-sm" id={randomID} name={name} type={type} placeholder={placeholder} value={form[name]} onChange={inputChange} />
+      {
+        error[name] && <p className="error-text">{error[name]}</p>
+      }
+    </div>
   )
 }

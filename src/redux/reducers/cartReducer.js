@@ -6,6 +6,9 @@ const initialState = {
   list: cart?.list || [],
   num: cart?.num || 0,
   amount: cart?.amount || 0,
+  shipping_option: cart?.shipping_option || 'free',
+  shipping_price: cart?.shipping_price || 0,
+  payment_option: cart?.payment_option || 'paypal',
 }
 
 function returnCart(cart) {
@@ -92,6 +95,29 @@ let { action, reducer, TYPE } = createSlice({
         list,
       })
     },
+    cartUpdate: (state, action) => {
+      return returnCart({
+        ...state,
+        ...action.payload,
+      })
+    },
+    // shippingChange: (state, action) => {
+    //   let { shipping_option, shipping_price } = action.payload;
+
+    //   return returnCart({
+    //     ...state,
+    //     shipping_option,
+    //     shipping_price
+    //   })
+    // },
+    // paymentChange: (state, action) => {
+    //   let { payment_option } = action.payload;
+
+    //   return returnCart({
+    //     ...state,
+    //     payment_option,
+    //   })
+    // },
   }
 })
 
@@ -104,3 +130,9 @@ export const removeItemCart = action.remove;
 export const cartDecrement = action.decrement;
 
 export const cartIncrement = action.increment;
+
+export const cartUpdate = action.cartUpdate;
+
+// export const shippingChange = action.shippingChange;
+
+// export const paymentChange = action.paymentChange;

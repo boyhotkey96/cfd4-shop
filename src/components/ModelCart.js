@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
 import withPriceFormat from '../hoc/withPriceFormat'
 import { removeItemCart, cartDecrement, cartIncrement } from '../redux/reducers/cartReducer'
 
@@ -10,6 +11,16 @@ export default function ModelCart() {
   console.log(cart)
 
   let amount = new Intl.NumberFormat('vi', { style: 'currency', currency: 'VND' }).format(cart.amount)
+
+  let history = useHistory();
+
+  function linkCheckout(e) {
+    window.document.getElementById('modalShoppingCart').dispatchEvent(new Event('click'))
+    if (cart.num === 0) {
+        history.push('/catalog')
+        return e.preventDefault();
+    }
+}
 
   return ReactDOM.createPortal(
     <div className="modal fixed-right fade" id="modalShoppingCart" tabIndex={-1} role="dialog" aria-hidden="true">
@@ -43,7 +54,7 @@ export default function ModelCart() {
           </div>
           {/* Buttons */}
           <div className="modal-body">
-            <a className="btn btn-block btn-dark" href="./checkout.html">Continue to Checkout</a>
+            <Link className="btn btn-block btn-dark" to="/checkout" onClick={linkCheckout}>Continue to Checkout</Link>
             <a className="btn btn-block btn-outline-dark" href="./shopping-cart.html">View Cart</a>
           </div>
         </div>

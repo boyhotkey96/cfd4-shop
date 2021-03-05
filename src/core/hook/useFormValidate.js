@@ -7,14 +7,34 @@ let regexPhone = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
 export default function useFormValidate(initialValue, validate) {
   let [form, setForm] = useState(initialValue);
 
-  function inputChange(e) {
-    form[e.target.getAttribute("name")] = e.target.value;
-    setForm({ ...form });
+  function inputChange(event) {
+    let name = event.target.getAttribute('name')
+
+    let input = document.querySelector(`[name="${name}"]`);
+
+    let value = event.target.value
+    if (input.type === 'checkbox') {
+      value = !form[name]
+    }
+
+    if (input.type === 'radio') {
+      value = document.querySelector(`[name="${name}"]:checked`).value
+    }
+
+    setForm({
+      ...form,
+      [name]: value
+    })
   }
 
   let [error, setError] = useState({});
 
-  function submit() {
+  function submit(options = { exclude: {} }) {
+    let { exclude } = options;
+    if (typeof exclude === 'undefined') exclude = {}
+
+    document.querySelectorAll('.error-input').forEach(e => e.classList.remove('error-input'))
+
     let { rule, message } = validate;
     let errorObject = {};
 
@@ -22,6 +42,7 @@ export default function useFormValidate(initialValue, validate) {
       let r = rule[i];
       // console.log(r);
 
+      if (i in exclude) continue;
       if (r.pattern) {
         let pattern = r.pattern;
 
@@ -52,8 +73,14 @@ export default function useFormValidate(initialValue, validate) {
     //   document.querySelector(`[name="${i}"]`).classList.add('error-input');
     // }
 
+    for (let i in errorObject) {
+      let input = document.querySelector(`[name="${i}"]`);
+      if (input) {
+        input.classList.add('error-input')
+      }
+    }
     setError(errorObject);
-    return errorObject;
+    return errorObject
   }
 
   return {
