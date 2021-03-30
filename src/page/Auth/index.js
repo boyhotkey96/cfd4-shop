@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router';
-import { login, userLogin } from '../../redux/reducers/authReducer';
+import { fetchLogin, } from '../../redux/reducers/authReducer';
 import useFormValidate from '../../core/hook/useFormValidate'
 
 const styles = {
@@ -43,7 +43,7 @@ export default function Auth() {
   function _btnLogin() {
     let error = submit();
     if (Object.keys(error).length === 0) {
-      dispatch(login(form));
+      dispatch(fetchLogin(form));
     }
   }
 

@@ -133,6 +133,8 @@ export const cartIncrement = action.increment;
 
 export const cartUpdate = action.cartUpdate;
 
+export const CART = TYPE;
+
 // export const shippingChange = action.shippingChange;
 
 // export const paymentChange = action.paymentChange;

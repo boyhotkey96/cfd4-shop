@@ -55,20 +55,21 @@ let initialState = {
 
 // ------------------------------------------------------------------
 
-export function login(data) {
-  return (dispatch) => {
-    userApi.login(data)
-    .then(res => {
-      if (res.error) {
-        dispatch({type: TYPE.error, payload: res.error})
-      } else {
-        dispatch({type: TYPE.login, payload: res.data})
-      }
-    })
-  }
-}
+// export function login(data) {
+//   return (dispatch) => {
+//     userApi.login(data)
+//       .then(res => {
+//         if (res.error) {
+//           dispatch({ type: TYPE.error, payload: res.error })
+//         } else {
+//           dispatch({ type: TYPE.login, payload: res.data })
+//         }
+//       })
+//   }
+// }
 
-let {action, reducer, TYPE} = createSlice({
+
+let { action, reducer, TYPE } = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -93,11 +94,26 @@ let {action, reducer, TYPE} = createSlice({
         user: null
       }
     },
-    error: function(state, action) {
+    error: function (state, action) {
       return {
         ...state,
         error: action.payload
       }
+    },
+    update: (state, action) => {
+      let user = {
+        ...state.user,
+        ...action.payload
+      }
+      localStorage.setItem('login', JSON.stringify(user));
+
+      return {
+        ...state,
+        user
+      }
+    },
+    fetchLogin: (state) => {
+      return state;
     }
   }
 })
@@ -107,5 +123,9 @@ export default reducer;
 export const userLogin = action.login;
 
 export const userLogout = action.logout;
+
+export const userUpdate = action.update;
+
+export const fetchLogin = action.fetchLogin;
 
 export const USER = TYPE;

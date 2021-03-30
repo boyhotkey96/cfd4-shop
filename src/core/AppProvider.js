@@ -2,8 +2,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
-export default function AppProvider({ children, reducers = {} }) {
+export default function AppProvider({ children, reducers = {}, saga }) {
   let store;
 
   let thunkFake = store => next => action => {
@@ -13,10 +14,16 @@ export default function AppProvider({ children, reducers = {} }) {
       return next(action);
     }
   }
+
   if (!store) {
     reducers = combineReducers(reducers);
+
     const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-    store = createStore(reducers, composeEnhancers(applyMiddleware(thunkFake)))
+    const sagaMiddleware = createSagaMiddleware()
+
+    store = createStore(reducers, composeEnhancers(applyMiddleware(sagaMiddleware, thunkFake)));
+
+    sagaMiddleware.run(saga);
   }
 
   return (

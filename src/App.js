@@ -32,10 +32,11 @@ import AppProvider from './core/AppProvider';
 import reducers from './redux/reducers';
 import PrivateRouter from './core/PrivateRouter';
 import ModelCart from './components/ModelCart';
+import saga from './redux/saga';
 
 function App() {
   return (
-    <AppProvider reducers={reducers}>
+    <AppProvider reducers={reducers} saga={saga}>
       <Header />
       <Switch>
         <PrivateRouter path="/account" exact component={Account} />
