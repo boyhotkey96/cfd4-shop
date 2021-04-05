@@ -6,18 +6,12 @@ import {
   Switch,
 } from 'react-router-dom';
 import Header from './components/Header'
-import Home from './page/home'
+import Home from './page/Home'
 import Footer from './components/Footer'
 import Page404 from './page/Page404'
 import About from './page/About'
-import AddressList from './page/Account/components/AddressList'
 import Account from './page/Account'
-import Order from './page/Account/components/Order'
 import Catalog from './page/Catalog'
-import OrderList from './page/Account/components/OrderList'
-import Payment from './page/Account/components/Payment'
-import PaymentList from './page/Account/components/PaymentList'
-import PersonalInfo from './page/Account/components/PersonalInfo'
 import Auth from './page/Auth'
 import Checkout from './page/Checkout'
 import ContactUs from './page/ContactUs'
@@ -26,13 +20,12 @@ import ShippingAndReturns from './page/ShippingAndReturns'
 import ShoppingCart from './page/ShoppingCart'
 import StoreLocator from './page/StoreLocator'
 import FAQ from './page/FAQ'
-import Shop from './page/Shop'
-import OrderComplete from './page/OrderComplete'
 import AppProvider from './core/AppProvider';
 import reducers from './redux/reducers';
 import PrivateRouter from './core/PrivateRouter';
 import ModelCart from './components/ModelCart';
 import saga from './redux/saga';
+import CommingSoon from './page/ComingSoon';
 
 function App() {
   return (
@@ -51,6 +44,7 @@ function App() {
         <Route path="/checkout" exact component={Checkout} />
         <Route path="/auth" exact component={Auth} />
         <Route path="/" exact component={Home} />
+        <Route path="/coming-soon" exact component={CommingSoon} />
         <Route path="*" component={Page404} />
       </Switch>
       <Footer />
