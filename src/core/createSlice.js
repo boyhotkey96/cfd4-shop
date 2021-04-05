@@ -16,9 +16,13 @@ export default function createSlice({ initialState, reducers, name }) {
 
   function reducer(state = initialState, action) {
     let type = action.type.split('/')[1];
+    let newState = { ...state }
 
     if (type in reducers) {
-      return reducers[type](state, action);
+      let stateTemp = reducers[type](newState, action);
+      if (stateTemp) return stateTemp;
+
+      return newState;
     }
 
     return state;

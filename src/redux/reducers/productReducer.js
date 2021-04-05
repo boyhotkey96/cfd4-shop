@@ -20,7 +20,7 @@ let { action, reducer, TYPE } = createSlice({
   initialState,
   reducers: {
     catalog: (state, action) => {
-      console.log(action)
+      // console.log(action)
       return {
         ...state,
         products: action.payload.data,

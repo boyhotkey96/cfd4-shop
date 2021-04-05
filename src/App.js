@@ -25,7 +25,8 @@ import reducers from './redux/reducers';
 import PrivateRouter from './core/PrivateRouter';
 import ModelCart from './components/ModelCart';
 import saga from './redux/saga';
-import CommingSoon from './page/ComingSoon';
+import ComingSoon from './page/ComingSoon';
+import ModelSearch from './components/ModelSearch';
 
 function App() {
   return (
@@ -44,10 +45,11 @@ function App() {
         <Route path="/checkout" exact component={Checkout} />
         <Route path="/auth" exact component={Auth} />
         <Route path="/" exact component={Home} />
-        <Route path="/coming-soon" exact component={CommingSoon} />
+        <Route path="/coming-soon" exact component={ComingSoon} />
         <Route path="*" component={Page404} />
       </Switch>
       <Footer />
+      <ModelSearch />
       <ModelCart />
     </AppProvider>
   );

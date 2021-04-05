@@ -10,7 +10,7 @@ export default function MainNav() {
     <nav className="navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         {/* Brand */}
-        <Link className="navbar-brand" to="/">Shopper.</Link>
+        <Link className="navbar-brand" to="/">Shopper</Link>
         {/* Toggler */}
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />

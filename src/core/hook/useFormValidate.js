@@ -12,7 +12,7 @@ export default function useFormValidate(initialValue, validate) {
 
     let input = document.querySelector(`[name="${name}"]`);
 
-    let value = event.target.value
+    let value = event.target.value.trim()
     if (input.type === 'checkbox') {
       value = !form[name]
     }
