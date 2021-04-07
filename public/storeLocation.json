@@ -1,0 +1,74 @@
+{
+  "data": [
+    {
+      "name": "Landmark 81",
+      "address": "720A Điện Biên Phủ, Phường 22, Bình Thạnh, Thành phố Hồ Chí Minh",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2127328697884!2d106.71966481456352!3d10.795012492308903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529aff2892003%3A0x856b53b1af6b19f3!2sLandmark%2081!5e0!3m2!1svi!2s!4v1617765843926!5m2!1svi!2s"
+    },
+    {
+      "name": "Vincom Plaza Gò Vấp",
+      "address": "12 Đ. Phan Văn Trị, Phường 5, Gò Vấp, Thành phố Hồ Chí Minh",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.793816806532!2d106.68705001456384!3d10.827084892287123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528f0b99ce875%3A0x1f806d9b226a083!2zVmluY29tIFBsYXphIEfDsiBW4bqlcA!5e0!3m2!1svi!2s!4v1617765890722!5m2!1svi!2s"
+    },
+    {
+      "name": "Bitexco TPHCM",
+      "address": "47 Ngô Đức Kế, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5136996924793!2d106.70202941456337!3d10.771912092324586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4137f5766b%3A0xeda07734da7990b3!2sBitexco%20TPHCM!5e0!3m2!1svi!2s!4v1617765917400!5m2!1svi!2s"
+    },
+    {
+      "name": "Trung tâm Hội nghị & Tiệc cưới Metropole",
+      "address": "216 Lý Chính Thắng, Phường 9, Quận 3, Thành phố Hồ Chí Minh, Việt Nam",
+      "phone": "+842835262288",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4089526705197!2d106.68004331456345!3d10.779957392319117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f2f53a8f12b%3A0x2166a074ded68eee!2zVHJ1bmcgdMOibSBI4buZaSBuZ2jhu4sgJiBUaeG7h2MgY8aw4bubaSBNZXRyb3BvbGU!5e0!3m2!1svi!2sus!4v1617767918994!5m2!1svi!2sus"
+    },
+    {
+      "name": "Công Viên Lê Thị Riêng",
+      "address": "19 Trường Sơn, Phường 15, Quận 10, Thành phố Hồ Chí Minh",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.3490796577785!2d106.66219361456353!3d10.784553392316004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ed02a5dac15%3A0x80ef1b470bc93add!2zQ8O0bmcgVmnDqm4gTMOqIFRo4buLIFJpw6puZw!5e0!3m2!1svi!2sus!4v1617769803910!5m2!1svi!2sus"
+    },
+    {
+      "name": "Chợ Bà Chiểu",
+      "address": "đường Bạch Đằng, Phường 1, Bình Thạnh, Thành phố Hồ Chí Minh 700000, Việt Nam",
+      "phone": "+84909036663",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.1182848218273!2d106.69643161456362!3d10.802251692303983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528c798e387bf%3A0x67a251e98cb790e5!2zQ2jhu6MgQsOgIENoaeG7g3U!5e0!3m2!1svi!2sus!4v1617769931989!5m2!1svi!2sus"
+    },
+    {
+      "name": "Đầm Sen",
+      "address": "262 Lạc Long Quân, Phường 5, Quận 11, Thành phố Hồ Chí Minh, Việt Nam",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.589449319227!2d106.63970541456331!3d10.766090292328549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752e9747f2686b%3A0xd9b909a86e926ccb!2zxJDhuqdtIFNlbg!5e0!3m2!1svi!2s!4v1617769724037!5m2!1svi!2s"
+    },
+    {
+      "name": "Nhà hàng Hoa Viên",
+      "address": "16 Phổ Quang, Phường 2, Tân Bình, Thành phố Hồ Chí Minh",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.099670166862!2d106.66414161456363!3d10.803677892303066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752925168ee199%3A0xc452357465a22c87!2zTmjDoCBow6BuZyBIb2EgVmnDqm4!5e0!3m2!1svi!2s!4v1617766028898!5m2!1svi!2s"
+    },
+    {
+      "name": "Bia Craft East West Brewing",
+      "address": "181 Lý Tự Trọng, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4985730261383!2d106.69395841456333!3d10.773074292323784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3ecd5f5459%3A0x7bdf52d38ba9f4d0!2sBia%20Craft%20East%20West%20Brewing!5e0!3m2!1svi!2s!4v1617766007491!5m2!1svi!2s"
+    },
+    {
+      "name": "Phố đi bộ Nguyễn Huệ Thành phố Hồ Chí Minh",
+      "address": "22 Nguyễn Huệ, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh 700000",
+      "phone": "6-146-389-574",
+      "store_hours": "10 am - 10 pm EST, 7 days a week",
+      "iframe_google_map": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4851031830303!2d106.70143511456335!3d10.774109092323073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f9219138937%3A0x5717de94d96c58e9!2zUGjhu5EgxJFpIGLhu5kgTmd1eeG7hW4gSHXhu4cgVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5o!5e0!3m2!1svi!2s!4v1617765972922!5m2!1svi!2s"
+    }
+  ]
+}

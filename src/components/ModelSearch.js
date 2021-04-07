@@ -30,7 +30,6 @@ export default function ModelSearch() {
 
   function _submit() {
     let error = submit();
-
     if (Object.keys(error).length === 0) {
       // alert('Thành công');
       dispatch(fetchSearch(form.input))

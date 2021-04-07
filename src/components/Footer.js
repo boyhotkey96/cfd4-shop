@@ -1,6 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-export default function Footer() {
+export default function Footer({ sizeChartRef }) {
+  // console.log(sizeChartRef);
+
   return (
     <footer className="bg-dark bg-cover @@classList" style={{ backgroundImage: 'url(/img/patterns/pattern-2.svg)' }}>
       <div className="py-12 border-bottom border-gray-700">
@@ -63,16 +66,17 @@ export default function Footer() {
               {/* Links */}
               <ul className="list-unstyled mb-7 mb-sm-0">
                 <li>
-                  <a className="text-gray-300" href="./contact-us.html">Contact Us</a>
+                  <Link className="text-gray-300" to="/contact-us">Contact Us</Link>
                 </li>
                 <li>
-                  <a className="text-gray-300" href="./faq.html">FAQs</a>
+                  <Link className="text-gray-300" to="/faq">FAQs</Link>
                 </li>
                 <li>
-                  <a className="text-gray-300" data-toggle="modal" href="#modalSizeChart">Size Guide</a>
+                  <a className="text-gray-300" data-toggle="modal" href="#modalSizeChart"
+                    onClick={(e) => { sizeChartRef.current.open(); e.preventDefault() }}>Size Guide</a>
                 </li>
                 <li>
-                  <a className="text-gray-300" href="./shipping-and-returns.html">Shipping &amp; Returns</a>
+                  <Link className="text-gray-300" to="/shipping-and-returns">Shipping & Returns</Link>
                 </li>
               </ul>
             </div>

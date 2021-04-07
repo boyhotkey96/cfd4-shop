@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './assets/custom.scss'
 import './App.css';
 import {
@@ -27,8 +26,12 @@ import ModelCart from './components/ModelCart';
 import saga from './redux/saga';
 import ComingSoon from './page/ComingSoon';
 import ModelSearch from './components/ModelSearch';
+import ModelSizeChart from './components/ModelSizeChart';
+import { useRef } from 'react';
 
 function App() {
+  let sizeChartRef = useRef();
+
   return (
     <AppProvider reducers={reducers} saga={saga}>
       <Header />
@@ -48,9 +51,10 @@ function App() {
         <Route path="/coming-soon" exact component={ComingSoon} />
         <Route path="*" component={Page404} />
       </Switch>
-      <Footer />
+      <Footer sizeChartRef={sizeChartRef} />
       <ModelSearch />
       <ModelCart />
+      <ModelSizeChart ref={sizeChartRef} />
     </AppProvider>
   );
 }

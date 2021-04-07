@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 export default function MainNav() {
 
@@ -26,29 +26,29 @@ export default function MainNav() {
               <Link className="nav-link" data-toggle="dropdown" to="/catalog/women">Women</Link>
             </li>
             <li className="nav-item dropdown">
-              <Link className="nav-link" data-toggle="dropdown" to="/catalog/men">Men</Link>
+              <Link className="nav-link" to="/catalog/men">Men</Link>
             </li>
             <li className="nav-item dropdown">
-              <Link className="nav-link" data-toggle="dropdown" to="/catalog/kids">Kids</Link>
+              <Link className="nav-link"  to="/catalog/kids">Kids</Link>
             </li>
             <li className="nav-item dropdown">
               {/* Toggle */}
-              <Link className="nav-link" data-toggle="dropdown" to="/catalog/contact">Contact</Link>
+              <Link className="nav-link"  to="/contact-us">Contact</Link>
               {/* Menu */}
               {/* <div className="dropdown-menu">
-                                <div className="card card-lg">
-                                    <div className="card-body">
-                                        <ul className="list-styled font-size-sm">
-                                            <li className="list-styled-item">
-                                                <a className="list-styled-link" to="./blog.html">Blog</a>
-                                            </li>
-                                            <li className="list-styled-item">
-                                                <a className="list-styled-link" to="./blog-post.html">Blog Post</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div> */}
+                  <div className="card card-lg">
+                      <div className="card-body">
+                          <ul className="list-styled font-size-sm">
+                              <li className="list-styled-item">
+                                  <a className="list-styled-link" to="./blog.html">Blog</a>
+                              </li>
+                              <li className="list-styled-item">
+                                  <a className="list-styled-link" to="./blog-post.html">Blog Post</a>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div> */}
             </li>
           </ul>
           {/* Nav */}
