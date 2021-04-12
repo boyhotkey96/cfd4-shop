@@ -9,6 +9,8 @@ import { cartDecrement, cartIncrement, cartUpdate } from '../../redux/reducers/c
 
 export default function Checkout() {
   const cart = useSelector(state => state.cart)
+  // console.log(cart)
+
   let dispatch = useDispatch()
 
   let { form, inputChange, submit, error } = useFormValidate({
@@ -45,11 +47,9 @@ export default function Checkout() {
       city: { required: true },
       // shipping: { required: true },
       // payment_option: { required: true },
-
       ship_country: { required: true },
       ship_city: { required: true },
       ship_post_code: { required: true },
-
       payment_card_number: { required: true },
       payment_card_name: { required: true },
       payment_card_cvv: { required: true },
@@ -61,7 +61,9 @@ export default function Checkout() {
 
   let amount = new Intl.NumberFormat('vn').format(cart.amount)
 
-  let total = new Intl.NumberFormat('vn').format(cart.amount + cart.shipping_price)
+  let tax = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(cart.tax * cart.amount / 100)
+
+  let total = new Intl.NumberFormat('vn').format(cart.amount + cart.shipping_price + cart.tax)
 
   let yearNow = (new Date()).getFullYear();
 
@@ -96,7 +98,6 @@ export default function Checkout() {
 
   function _shippingChange(e) {
     let { value } = e.target, price = parseInt(e.target.dataset.price);
-
     dispatch(cartUpdate({
       shipping_option: value,
       shipping_price: price
@@ -371,7 +372,7 @@ export default function Checkout() {
                     <span>Subtotal</span> <span className="ml-auto font-size-sm">{amount} vnđ</span>
                   </li>
                   <li className="list-group-item d-flex">
-                    <span>Tax</span> <span className="ml-auto font-size-sm">0</span>
+                    <span>Tax</span> <span className="ml-auto font-size-sm">{tax}</span>
                   </li>
                   <li className="list-group-item d-flex">
                     <span>Shipping</span> <span className="ml-auto font-size-sm">{shipping_price} vnđ</span>

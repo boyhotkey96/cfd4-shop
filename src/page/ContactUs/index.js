@@ -1,8 +1,45 @@
-import React from 'react'
+import pageApi from 'api/pageApi'
+import InputGroup from 'components/InputGroup'
+import TextareaGroup from 'components/TextareaGroup'
+import useFormValidate from 'core/hook/useFormValidate'
+import React, { useState } from 'react'
 
 export default function ContactUs() {
+  
+  let { form, submit, inputChange, error } = useFormValidate({
+    name: '',
+    email: '',
+    title: '',
+    message: '',
+  }, {
+    rule: {
+      name: { required: true },
+      email: { required: true, pattern: 'email' },
+      title: { required: true },
+      message: { required: true, min: 50 },
+    },
+    message: {}
+  })
+
+  let [errorMessage, setErrorMessage] = useState('')
+  let [message, setMessage] = useState('')
+
+  function _submit() {
+    let error = submit();
+    if (Object.keys(error).length === 0) {
+      pageApi.contact(form)
+      .then(res => {
+          if (res.success) {
+            setMessage('Gửi liên hệ thành công, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!')
+          }
+        }, res => {
+          setErrorMessage(res.error)
+        })
+    }
+  }
+
   return (
-    <section className="pt-7 pb-12">
+    <section className="pt-7 pb-12 contact-page">
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -69,40 +106,25 @@ export default function ContactUs() {
           </div>
           <div className="col-12 col-md-8">
             {/* Form */}
-            <form>
-              {/* Email */}
-              <div className="form-group">
-                <label className="sr-only" htmlFor="contactName">
-                  Your Name *
-            </label>
-                <input className="form-control form-control-sm" id="contactName" type="text" placeholder="Your Name *" required />
-              </div>
-              {/* Email */}
-              <div className="form-group">
-                <label className="sr-only" htmlFor="contactEmail">
-                  Your Email *
-            </label>
-                <input className="form-control form-control-sm" id="contactEmail" type="email" placeholder="Your Email *" required />
-              </div>
-              {/* Email */}
-              <div className="form-group">
-                <label className="sr-only" htmlFor="contactTitle">
-                  Title *
-            </label>
-                <input className="form-control form-control-sm" id="contactTitle" type="text" placeholder="Title *" required />
-              </div>
-              {/* Email */}
-              <div className="form-group mb-7">
-                <label className="sr-only" htmlFor="contactMessage">
-                  Message *
-            </label>
-                <textarea className="form-control form-control-sm" id="contactMessage" rows={5} placeholder="Message *" required defaultValue={""} />
-              </div>
-              {/* Button */}
-              <button className="btn btn-dark">
-                Send Message
-          </button>
-            </form>
+            {
+              message && <p className="message">{message}</p>
+            }
+            {
+              errorMessage && <p className="error-message">{errorMessage}</p>
+            }
+            {/* Email */}
+            <InputGroup inputChange={inputChange} name="name" title="Name *" error={error} form={form} />
+            {/* Email */}
+            <InputGroup inputChange={inputChange} name="email" title="Email *" error={error} form={form} />
+            {/* Email */}
+            <InputGroup inputChange={inputChange} name="title" title="Title *" error={error} form={form} />
+            {/* Email */}
+            <TextareaGroup inputChange={inputChange} name="message" title="Message *" error={error} form={form} />
+            <p style={{ textAlign: 'right' }}>
+              {form.message.length}/50
+              </p>
+            {/* Button */}
+            <button className="btn btn-dark" onClick={_submit}>Send Message</button>
           </div>
         </div>
       </div>

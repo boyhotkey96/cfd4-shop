@@ -46,7 +46,6 @@ export default function Pagination({ count, currentPage, nextPage, perPage, tota
             </Link>
           </li>
         }
-
       </ul>
     </nav>
   )

@@ -1,6 +1,6 @@
 import { domain } from "./config"
 
-export default {
+const userApi = {
   login: (data) => {
     return fetch(`${domain}elearning/v4/login`, {
       method: 'POST',
@@ -8,6 +8,17 @@ export default {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    }).then (res => res.json())
+    }).then(res => res.json())
+  },
+  register: (data) => {
+    return fetch(`${domain}elearning/v4/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(res => res.json())
   }
 }
+
+export default userApi;

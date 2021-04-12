@@ -4,7 +4,14 @@ let regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((
 let regexUrlFacebook = /(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?/;
 let regexPhone = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
 
-export default function useFormValidate(initialValue, validate) {
+export default function useFormValidate(initialValue, validate, options = {}) {
+
+  let { className } = options;
+
+  function getElement() {
+    return className ? document.querySelector(`.${className}`) : document
+  }
+
   let [form, setForm] = useState(initialValue);
 
   function inputChange(event) {
@@ -12,7 +19,7 @@ export default function useFormValidate(initialValue, validate) {
 
     let input = document.querySelector(`[name="${name}"]`);
 
-    let value = event.target.value.trim()
+    let value = event.target.value
     if (input.type === 'checkbox') {
       value = !form[name]
     }
@@ -31,6 +38,7 @@ export default function useFormValidate(initialValue, validate) {
 
   function submit(options = { exclude: {} }) {
     let { exclude } = options;
+
     if (typeof exclude === 'undefined') exclude = {}
 
     document.querySelectorAll('.error-input').forEach(e => e.classList.remove('error-input'))
@@ -62,10 +70,15 @@ export default function useFormValidate(initialValue, validate) {
         }
       }
       if (r.min && form[i]?.length < r.min && form[i]?.length > 0) {
-        errorObject[i] = message?.[i]?.min || `Trường này dài hơn ${r.min} ký tự`
+        errorObject[i] = message?.[i]?.min || `Trường này phải dài hơn ${r.min} ký tự`
       }
       if (r.max && form[i]?.length > r.max) {
-        errorObject[i] = message?.[i]?.max || `Trường này dài hơn ${r.max} ký tự`
+        errorObject[i] = message?.[i]?.max || `Trường này phải ngắn hơn ${r.max} ký tự`
+      }
+      if (r.match && form[r.match]) {
+        if (form[r.match] !== form[i]) {
+          errorObject[i] = message?.[i]?.match || `Vui lòng điền giống ${r.match}`
+        }
       }
     }
 
@@ -74,11 +87,12 @@ export default function useFormValidate(initialValue, validate) {
     // }
 
     for (let i in errorObject) {
-      let input = document.querySelector(`[name="${i}"]`);
+      let input = getElement().querySelector(`[name="${i}"]`);
       if (input) {
         input.classList.add('error-input')
       }
     }
+
     setError(errorObject);
     return errorObject
   }

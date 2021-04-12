@@ -1,5 +1,7 @@
-export default {
+const faqApi = {
   get: () => {
-      return fetch(`/faq.json`).then(res => res.json())
+    return fetch(`/faq.json`).then(res => res.json())
   }
 }
+
+export default faqApi;

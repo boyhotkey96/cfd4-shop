@@ -55,18 +55,31 @@ let initialState = {
 
 // ------------------------------------------------------------------
 
-// export function login(data) {
-//   return (dispatch) => {
-//     userApi.login(data)
-//       .then(res => {
-//         if (res.error) {
-//           dispatch({ type: TYPE.error, payload: res.error })
-//         } else {
-//           dispatch({ type: TYPE.login, payload: res.data })
-//         }
-//       })
-//   }
-// }
+export function login(data) {
+  return (dispatch) => {
+    userApi.login(data)
+      .then(res => {
+        if (res.error) {
+          dispatch({ type: TYPE.error, payload: res.error })
+        } else {
+          dispatch({ type: TYPE.login, payload: res.data })
+        }
+      })
+  }
+}
+
+export function register(data) {
+  return (dispatch) => {
+    userApi.register(data)
+      .then(res => {
+        if (res.error) {
+          dispatch(action.error(res.error))
+        } else {
+          dispatch(action.register(res.data))
+        }
+      })
+  }
+}
 
 
 let { action, reducer, TYPE } = createSlice({
@@ -109,6 +122,18 @@ let { action, reducer, TYPE } = createSlice({
 
       return {
         ...state,
+        user
+      }
+    },
+    register: (state, action) => {
+      let user = action.payload;
+      let token = action.payload.token;
+
+      localStorage.setItem('login', JSON.stringify(user));
+      localStorage.setItem('token', JSON.stringify(token));
+      return {
+        ...state,
+        register: true,
         user
       }
     },

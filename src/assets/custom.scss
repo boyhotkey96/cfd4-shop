@@ -24,3 +24,21 @@
 .error-input::placeholder {
   color: red;
 }
+
+.contact-page label {
+  display: none;
+}
+
+.contact-page .error-message {
+  color: red;
+  text-align: center;
+}
+
+.contact-page .message {
+  color: green;
+  text-align: center;
+}
+
+.green-message {
+  color: green;
+}

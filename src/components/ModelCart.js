@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, NavLink, useHistory } from 'react-router-dom'
 import withPriceFormat from '../hoc/withPriceFormat'
 import { removeItemCart, cartDecrement, cartIncrement } from '../redux/reducers/cartReducer'
 
 export default function ModelCart() {
 
   const cart = useSelector(state => state.cart)
-  console.log(cart)
+  // console.log(cart)
 
   let amount = new Intl.NumberFormat('vi', { style: 'currency', currency: 'VND' }).format(cart.amount)
 
@@ -17,10 +17,10 @@ export default function ModelCart() {
   function linkCheckout(e) {
     window.document.getElementById('modalShoppingCart').dispatchEvent(new Event('click'))
     if (cart.num === 0) {
-        history.push('/catalog')
-        return e.preventDefault();
+      history.push('/catalog')
+      return e.preventDefault();
     }
-}
+  }
 
   return ReactDOM.createPortal(
     <div className="modal fixed-right fade" id="modalShoppingCart" tabIndex={-1} role="dialog" aria-hidden="true">
@@ -55,7 +55,7 @@ export default function ModelCart() {
           {/* Buttons */}
           <div className="modal-body">
             <Link className="btn btn-block btn-dark" to="/checkout" onClick={linkCheckout}>Continue to Checkout</Link>
-            <a className="btn btn-block btn-outline-dark" href="./shopping-cart.html">View Cart</a>
+            <NavLink className="btn btn-block btn-outline-dark" to="/shopping-cart" onClick={linkCheckout}>View Cart</NavLink>
           </div>
         </div>
         {/* Empty cart (remove `.d-none` to enable it) */}
@@ -84,7 +84,7 @@ export default function ModelCart() {
   )
 }
 
-function CartItem({ name, images, real_price_text, _id, cartNum, }) {
+function CartItem({ name, images, real_price_text, _id, cartNum }) {
   const dispatch = useDispatch();
   // console.log(cartNum)
 
@@ -92,6 +92,7 @@ function CartItem({ name, images, real_price_text, _id, cartNum, }) {
     e.preventDefault();
     dispatch(removeItemCart(_id, cartNum));
   }
+  
   return (
     <li className="list-group-item">
       <div className="row align-items-center">
