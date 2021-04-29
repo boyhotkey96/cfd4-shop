@@ -81,6 +81,19 @@ export function register(data) {
   }
 }
 
+export function updateInfo(data) {
+  return (dispatch) => {
+    userApi.update(data)
+      .then(res => {
+        if (res.error) {
+          dispatch(action.error(res.error))
+        } else {
+          dispatch(action.update(res.data))
+        }
+      })
+  }
+}
+
 
 let { action, reducer, TYPE } = createSlice({
   name: 'auth',

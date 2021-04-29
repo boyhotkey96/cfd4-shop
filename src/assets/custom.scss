@@ -42,3 +42,15 @@
 .green-message {
   color: green;
 }
+
+.discount_rate {
+  position: absolute;
+  right: 0;
+  top: 1.25rem;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 0 10px;
+  line-height: 22px;
+}

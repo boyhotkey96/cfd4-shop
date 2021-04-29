@@ -3,26 +3,41 @@ import { useDispatch, useSelector } from 'react-redux'
 import Pagination from '../../components/Pagination';
 import withPriceFormat from '../../hoc/withPriceFormat';
 import { getProduct } from '../../redux/reducers/productReducer';
-import Product from './components/Product'
+import Product from './components/Product';
+import { useHistory, useRouteMatch } from 'react-router';
+import { convertQueryToObject, serializeObjToQueryURL } from 'components/helper';
 
-function getPage() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('page');
-}
+// function getPage() {
+//   const urlParams = new URLSearchParams(window.location.search);
+//   return urlParams.get('page');
+// }
 
 export default function Catalog() {
 
   let dispatch = useDispatch();
-
-  let product = useSelector(state => state.product);
-  // console.log(product.products[0])
-
-  let page = getPage();
+  let product = useSelector(state => state.product)
+  let queryURL = convertQueryToObject();
+  let queryString = serializeObjToQueryURL(queryURL)
 
   useEffect(() => {
-    dispatch(getProduct(page || 1));
+    dispatch(getProduct(queryString))
+  }, [queryString])
 
-  }, [page])
+  // let page = getPage();`
+  // useEffect(() => {
+  //   dispatch(getProduct(page || 1));
+  // }, [page])
+
+  let history = useHistory()
+  let routeMatch = useRouteMatch()
+
+  function sortChange(e) {
+    let queryObj = convertQueryToObject();
+    queryObj.sort = e.target.value
+    queryObj.page = 1;
+    let queryURL = serializeObjToQueryURL(queryObj)
+    history.push(`${routeMatch.path}?${queryURL}`)
+  }
 
   return (
     <section className="py-11">
@@ -698,8 +713,12 @@ export default function Catalog() {
               </div>
               <div className="col-12 col-md-auto">
                 {/* Select */}
-                <select className="custom-select custom-select-xs">
-                  <option selected>Most popular</option>
+                <select className="custom-select custom-select-xs" onChange={sortChange}>
+                  <option selected={queryURL.sort === ''} value=''>-- Sắp xếp --</option>
+                  <option selected={queryURL.sort === 'real_price.1'} value="real_price.1">Giá thấp</option>
+                  <option selected={queryURL.sort === 'real_price.-1'} value="real_price.-1">Giá cao</option>
+                  <option selected={queryURL.sort === 'rating_average.-1'} value="rating_average.-1">Đánh giá cao</option>
+                  <option selected={queryURL.sort === 'discount_rate.-1'} value="discount_rate.-1">Giảm nhiều</option>
                 </select>
               </div>
             </div>
@@ -752,13 +771,11 @@ export default function Catalog() {
             <div className="row">
               {
                 product.products.map(e => (
-                  <div className="col-6 col-md-4" key={e.id}>
-                    {withPriceFormat(Product, e)}
-                    {/* <Product {...e} /> */}
+                  <div className="col-6 col-md-4" key={e._id}>
+                    {withPriceFormat(Product, { ...e, loading: product.loading })}
                   </div>
                 ))
               }
-
             </div>
             {/* Pagination */}
             <Pagination {...product.paginate} />

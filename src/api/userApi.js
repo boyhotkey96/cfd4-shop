@@ -18,6 +18,9 @@ const userApi = {
       },
       body: JSON.stringify(data)
     }).then(res => res.json())
+  },
+  update: (data) => {
+    return fetch(`update.json`).then(res => res.json())
   }
 }
 

@@ -3,7 +3,6 @@ import React from 'react'
 export default function home() {
   return (
       <div>
-        
         <section>
           <div className="row no-gutters d-block d-lg-flex flickity flickity-lg-none" data-flickity="{&quot;watchCSS&quot;: true}">
             {/* Item */}

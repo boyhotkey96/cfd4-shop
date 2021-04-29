@@ -36,7 +36,7 @@ function App() {
     <AppProvider reducers={reducers} saga={saga}>
       <Header />
       <Switch>
-        <PrivateRouter path="/account" exact component={Account} />
+        <PrivateRouter path="/account" component={Account} />
         <Route path="/shipping-and-returns" exact component={ShippingAndReturns} />
         <Route path="/about" exact component={About} />
         <Route path="/store-locator" exact component={StoreLocator} />

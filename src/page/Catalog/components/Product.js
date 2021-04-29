@@ -1,10 +1,12 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addCart } from '../../../redux/reducers/cartReducer';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { Link } from 'react-router-dom';
 
 export default function Product(props) {
 
-  let { name, images, real_price_text } = props;
+  let { name, images, real_price_text, rating_average, loading, discount_rate, slug } = props;
 
   let image1 = images?.[0]?.medium_url
   let image2 = images?.[0]?.medium_url
@@ -14,21 +16,30 @@ export default function Product(props) {
   return (
     <div className="card mb-7">
       {/* Badge */}
-      <div className="badge badge-white card-badge card-badge-left text-uppercase">
-        New
+      {
+        !loading && <div className="badge badge-white card-badge card-badge-left text-uppercase">
+          New
       </div>
+      }
       {/* Image */}
       <div className="card-img">
         {/* Image */}
-        <a className="card-img-hover" href="product.html">
+        <Link className="card-img-hover" to={`/product/${slug}`}>
           {
-            image1 && <img className="card-img-top card-img-back" src={image1} alt="..." />
+            loading ? <Skeleton variant="rect" width="100%" height={250} /> : <>
+              {
+                image1 && <img className="card-img-top card-img-back" src={image1} alt="..." />
+              }
+              {
+                image2 ? <img className="card-img-top card-img-front" src={image2} alt="..." /> :
+                  <img className="card-img-top card-img-back" src={image1} alt="..." />
+              }
+              {
+                discount_rate > 0 ? <p className="discount_rate">{discount_rate}%</p> : null
+              }
+            </>
           }
-          {
-            image2 ? <img className="card-img-top card-img-front" src={image2} alt="..." /> :
-              <img className="card-img-top card-img-back" src={image1} alt="..." />
-          }
-        </a>
+        </Link>
         {/* Actions */}
         <div className="card-actions">
           <span className="card-action">
@@ -51,19 +62,26 @@ export default function Product(props) {
       {/* Body */}
       <div className="card-body px-0">
         {/* Category */}
-        <div className="font-size-xs">
-          <a className="text-muted" href="shop.html">Shoes</a>
-        </div>
-        {/* Title */}
-        <div className="font-weight-bold">
-          <a className="text-body" href="product.html">
-            {name}
-          </a>
-        </div>
+        {
+          loading ? <Skeleton variant="rect" height={60} /> : <>
+            <div className="font-size-xs" style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <a className="text-muted" href="shop.html">Shoes</a>
+              <span>{rating_average} ⭐ </span>
+            </div>
+            {/* Title */}
+            <div className="font-weight-bold">
+              <Link className="text-body" to={`/product/${slug}`}>
+                {name}
+              </Link>
+            </div>
+          </>
+        }
         {/* Price */}
-        <div className="font-weight-bold text-muted">
-          {real_price_text}
-        </div>
+        {
+          loading ? <Skeleton /> : <div className="font-weight-bold text-muted">
+            {real_price_text} vnđ
+                </div>
+        }
       </div>
     </div>
   )
