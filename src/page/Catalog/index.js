@@ -35,7 +35,9 @@ export default function Catalog() {
     let queryObj = convertQueryToObject();
     queryObj.sort = e.target.value
     queryObj.page = 1;
+    console.log(queryObj)
     let queryURL = serializeObjToQueryURL(queryObj)
+    console.log(queryURL)
     history.push(`${routeMatch.path}?${queryURL}`)
   }
 

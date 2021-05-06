@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 
 export default function ShippingAndReturns() {
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  });
+
   return (
     <section className="pt-7 pb-12">
       <div className="container">

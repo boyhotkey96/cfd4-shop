@@ -54,3 +54,24 @@
   padding: 0 10px;
   line-height: 22px;
 }
+
+.product-detail #productSlider a {
+  display: none;
+}
+
+.product-detail #productSlider a.active {
+  display: block;
+}
+
+.product-detail .slider-thumbnail {
+  display: flex;
+  overflow: auto;
+}
+
+.product-detail .slider-thumbnail .active {
+  border: 1px solid #ff6f61;
+}
+
+.product-option .option-value {
+  margin-left: 15px;
+}

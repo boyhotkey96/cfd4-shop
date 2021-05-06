@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import faqApi from 'api/faqApi'
 import FAQGroup from './components/FAQGroup';
 
@@ -12,6 +12,10 @@ export default function FAQ() {
         setList(res)
       })
   }, [])
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  });
 
   return (
     <section className="pt-7 pb-12">

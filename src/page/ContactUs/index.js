@@ -2,10 +2,11 @@ import pageApi from 'api/pageApi'
 import InputGroup from 'components/InputGroup'
 import TextareaGroup from 'components/TextareaGroup'
 import useFormValidate from 'core/hook/useFormValidate'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function ContactUs() {
-  
+
   let { form, submit, inputChange, error } = useFormValidate({
     name: '',
     email: '',
@@ -28,7 +29,7 @@ export default function ContactUs() {
     let error = submit();
     if (Object.keys(error).length === 0) {
       pageApi.contact(form)
-      .then(res => {
+        .then(res => {
           if (res.success) {
             setMessage('Gửi liên hệ thành công, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!')
           }
@@ -37,6 +38,10 @@ export default function ContactUs() {
         })
     }
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  });
 
   return (
     <section className="pt-7 pb-12 contact-page">
@@ -98,9 +103,9 @@ export default function ContactUs() {
           </p>
               {/* Button */}
               <p className="mb-0">
-                <a className="btn btn-link px-0 text-body" href="store-locator.html">
+                <Link className="btn btn-link px-0 text-body" to="/store-locator">
                   Go to Store Locator <i className="fe fe-arrow-right ml-2" />
-                </a>
+                </Link>
               </p>
             </aside>
           </div>

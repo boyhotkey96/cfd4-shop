@@ -26,7 +26,7 @@ export default function Pagination({ count, currentPage, nextPage, perPage, tota
         <Link className="page-link" to={`${match.path}?${queryString}`}>{i}</Link>
       </li>)
     }
-
+    // console.log(list)
     return list;
   }
 

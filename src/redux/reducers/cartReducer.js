@@ -17,6 +17,16 @@ function returnCart(cart) {
   return cart
 }
 
+function calPrice(list) {
+  let amount = list.reduce((sum, currentItem) => sum + currentItem.real_price * currentItem.cartNum, 0)
+  let num = list.reduce((sum, currentItem) => sum + currentItem.cartNum, 0)
+
+  return {
+    amount,
+    num
+  }
+}
+
 let { action, reducer, TYPE } = createSlice({
   name: 'cart',
   initialState,
@@ -24,21 +34,22 @@ let { action, reducer, TYPE } = createSlice({
     addCart: (state, action) => {
       let { list, amount } = state;
       let f = list.findIndex(e => e._id === action.payload._id);
+      let cartNum = action.payload.cartNum || 1;
+
       if (f !== -1) {
-        list[f].cartNum++;
+        list[f].cartNum += cartNum;
         amount += list[f].real_price;
       } else {
         // let item = {...action.payload};
         let item = JSON.parse(JSON.stringify(action.payload));
-        item.cartNum = 1;
+        item.cartNum = cartNum;
         list.push(item);
         amount += item.real_price;
       }
 
       return returnCart({
         ...state,
-        num: state.num + 1,
-        amount,
+        ...calPrice(list),
         list,
       });
     },

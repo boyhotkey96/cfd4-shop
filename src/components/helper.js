@@ -8,6 +8,7 @@ export const serializeObjToQueryURL = function (obj) {
   for (var p in obj)
     if (obj.hasOwnProperty(p)) {
       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      // console.log(str)
     }
   return str.join("&");
 }

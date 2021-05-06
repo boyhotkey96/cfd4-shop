@@ -7,6 +7,7 @@ export default function StoreLocator() {
   let [list, setList] = useState([])
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     storeApi.get()
       .then(res => {
         // console.log(res.data)
@@ -48,7 +49,7 @@ export default function StoreLocator() {
           <div className="row">
             <div className="col-12 col-md-5 col-lg-4">
               {/* Card */}
-              <div className="card card-xl h-md-0 minh-md-100 mb-10 mb-md-0 " style={{ overflow: 'auto' }}>
+              <div className="card card-xl h-md-0 minh-md-100 mb-10 mb-md-0" style={{ overflow: 'auto' }}>
                 {
                   list.map((e, i) => <StoreItem onClick={storeClick.bind(null, i)} key={i} {...e} />)
                 }
